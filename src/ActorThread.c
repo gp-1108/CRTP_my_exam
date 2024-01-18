@@ -24,6 +24,7 @@ void *clientThreadFunc(void *data) {
 
     for (;;) {
         char message[256];
+        bzero(message, 256 * sizeof(char));
 
         snprintf(message, sizeof(message), "Queue Length: %d\n",
                  (sharedMemory->writeIdx - sharedMemory->readIdx + BUFFER_SIZE) % BUFFER_SIZE);
