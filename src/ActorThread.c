@@ -1,5 +1,5 @@
 #include "../headers/ActorThread.h"
 
-void *monitorThread(void *arg) {
+void *actor(void *arg) {
     return 0;
 }

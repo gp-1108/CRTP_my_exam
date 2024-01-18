@@ -1,5 +1,5 @@
 #include "../headers/ConsumerThread.h"
 
-void *consumerThread(void *arg) {
+void *consumer(void *arg) {
     return 0;
 }

@@ -3,12 +3,12 @@
 
 #include "SharedMemory.h"
 
-struct MonitorThreadData {
+struct ActorThreadData {
     struct SharedMemory *sharedMemory;
     struct ConsumerInfo *consumerInfo;
     int consumerCount;
 };
 
-void *monitoThread(void *data);
+void *actor(void *data);
 
 #endif
