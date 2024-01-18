@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Create threads
-    pthread_t threads[MAX_CONSUMERS + MAX_CLIENTS + 3]; // +3 for ProducerThread, ActorThread and ActorThread
+    pthread_t threads[MAX_CONSUMERS + 3]; // +3 for ProducerThread, ActorThread and ActorThread
 
     // Initialize shared memory
     sharedMemory->readIdx = 0;
@@ -59,16 +59,17 @@ int main(int argc, char *argv[]) {
     actorData.consumerInfo = consumerInfo;
     actorData.consumerCount = numberOfConsumers;
 
-    // Init actor thread
-    pthread_create(&threads[0], NULL, actor, &actorData);
-
     // Init producer thread
     pthread_create(&threads[1], NULL, producer, sharedMemory);
 
     // Init consumer threads
     for (int i = 0; i < numberOfConsumers; i++) {
+        printf("Creating consumer %d\n", i);
         pthread_create(&threads[i + 2], NULL, consumer, &consumerInfo[i]);
     }
+
+    // Init actor thread
+    pthread_create(&threads[0], NULL, actor, &actorData);
 
     // Wait for threads to finish
     for (int i = 0; i < numberOfConsumers + 2; i++) {

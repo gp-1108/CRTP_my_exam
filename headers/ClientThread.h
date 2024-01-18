@@ -4,10 +4,8 @@
 #include "ActorThread.h"
 
 struct ClientThreadData {
-    struct MonitorThreadData *monitorThreadData;
+    struct ActorThreadData *actorData;
     int clientSocket;
 };
-
-void *client(void *data);
 
 #endif
