@@ -2,6 +2,7 @@
 #include "../headers/SharedMemory.h"
 #include <pthread.h>
 #include <unistd.h>
+#include <stdio.h>
 
 void *producer(void *data) {
     struct SharedMemory *sharedMemory = (struct SharedMemory *) data;
@@ -23,6 +24,9 @@ void *producer(void *data) {
 
         item++;
 
+        // Display message
+        printf("Current queue length: %d (produced %d items)\n", (sharedMemory->writeIdx - sharedMemory->readIdx + BUFFER_SIZE) % BUFFER_SIZE, item);
+
         // Signal that there is data available
         pthread_cond_signal(&sharedMemory->dataAvailable);
 
@@ -30,6 +34,6 @@ void *producer(void *data) {
         pthread_mutex_unlock(&sharedMemory->mutex);
 
 
-        sleep(2);
+        sleep(1);
     }
 }

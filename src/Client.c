@@ -49,8 +49,7 @@ int main(int argc, char *argv[]) {
             for (;;) {
                 while ((bytesRead = recv(clientSocket, buffer, sizeof(buffer) - 1, 0)) > 0) {
                     buffer[bytesRead] = '\0';
-                    printf("From client %d got message\n", getpid());
-                    printf("%s\n", buffer);
+                    printf("From client %d got message\n%s", getpid(), buffer);
                     fflush(stdout);
                 }
 

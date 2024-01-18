@@ -2,6 +2,7 @@
 #include "../headers/SharedMemory.h"
 #include <unistd.h>
 #include <pthread.h>
+#include <stdio.h>
 
 void *consumer(void *arg) {
     struct ConsumerInfo *consumerInfo = (struct ConsumerInfo *) arg;
@@ -22,6 +23,9 @@ void *consumer(void *arg) {
             break;
         }
 
+        // Display message
+        printf("Consumer %d consumed %d items\n", consumerInfo->id, consumerInfo->messageCount);
+
         // Consume an item
         int item = sharedMemory->buffer[sharedMemory->readIdx];
         sharedMemory->readIdx = (sharedMemory->readIdx + 1) % BUFFER_SIZE;
@@ -34,7 +38,7 @@ void *consumer(void *arg) {
         // Unlock mutex 0->1
         pthread_mutex_unlock(&sharedMemory->mutex);
 
-        sleep(1);
+        sleep(2);
 
     }
 

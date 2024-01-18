@@ -19,23 +19,18 @@ void *clientThreadFunc(void *data) {
     struct SharedMemory *sharedMemory = actorData->sharedMemory;
     struct ConsumerInfo *consumerInfo = actorData->consumerInfo;
 
+
     int clientSocket = clientData->clientSocket;
 
     for (;;) {
         char message[256];
 
-        // Acquire lock and read from shared memory
-        pthread_mutex_lock(&sharedMemory->mutex);
-
         snprintf(message, sizeof(message), "Queue Length: %d\n",
                  (sharedMemory->writeIdx - sharedMemory->readIdx + BUFFER_SIZE) % BUFFER_SIZE);
         
         for (int i = 0; i < actorData->consumerCount; i++) {
-            snprintf(message + strlen(message), sizeof(message) - strlen(message), "-- consumer %d consumed %d items\n", i, consumerInfo[i+2].messageCount);
+            snprintf(message + strlen(message), sizeof(message) - strlen(message), "-- consumer %d consumed %d items\n", consumerInfo[i].id, consumerInfo[i].messageCount);
         }
-
-        // Release lock
-        pthread_mutex_unlock(&sharedMemory->mutex);
 
         // Send message
         if (send(clientSocket, message, sizeof(message), 0) < 0) {
@@ -52,8 +47,6 @@ void *clientThreadFunc(void *data) {
 
 void *actor(void *arg) {
     struct ActorThreadData *actorData = (struct ActorThreadData *) arg;
-    struct SharedMemory *sharedMemory = actorData->sharedMemory;
-    struct ConsumerInfo *consumerInfo = actorData->consumerInfo;
 
     // Initializing the TCP server variables
     int serverSocket, clientSocket;
@@ -107,7 +100,6 @@ void *actor(void *arg) {
 
         pthread_create(&thread, NULL, clientThreadFunc, (void*) clientThreadData);
 
-        pthread_detach(thread);
     }
 
     return 0;
