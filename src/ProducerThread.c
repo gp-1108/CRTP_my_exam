@@ -24,8 +24,7 @@ void *producer(void *data) {
 
         item++;
 
-        // Display message
-        printf("Current queue length: %d (produced %d items)\n", (sharedMemory->writeIdx - sharedMemory->readIdx + BUFFER_SIZE) % BUFFER_SIZE, item);
+        int queueLength = (sharedMemory->writeIdx - sharedMemory->readIdx + BUFFER_SIZE) % BUFFER_SIZE;
 
         // Signal that there is data available
         pthread_cond_signal(&sharedMemory->dataAvailable);
@@ -33,6 +32,8 @@ void *producer(void *data) {
         // Unlock mutex 0->1
         pthread_mutex_unlock(&sharedMemory->mutex);
 
+        // Display message
+        printf("Current queue length: %d (produced %d items)\n", queueLength, item);
 
         sleep(1);
     }

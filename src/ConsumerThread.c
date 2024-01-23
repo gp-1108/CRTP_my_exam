@@ -23,9 +23,6 @@ void *consumer(void *arg) {
             break;
         }
 
-        // Display message
-        printf("Consumer %d consumed %d items\n", consumerInfo->id, consumerInfo->messageCount);
-
         // Consume an item
         int item = sharedMemory->buffer[sharedMemory->readIdx];
         sharedMemory->readIdx = (sharedMemory->readIdx + 1) % BUFFER_SIZE;
@@ -37,6 +34,9 @@ void *consumer(void *arg) {
 
         // Unlock mutex 0->1
         pthread_mutex_unlock(&sharedMemory->mutex);
+
+        // Display message
+        printf("Consumer %d consumed %d items\n", consumerInfo->id, consumerInfo->messageCount);
 
         sleep(2);
 
