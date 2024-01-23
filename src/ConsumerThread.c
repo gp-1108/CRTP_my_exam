@@ -13,7 +13,7 @@ void *consumer(void *arg) {
         pthread_mutex_lock(&sharedMemory->mutex);
 
         // Wait if the buffer is empty and not finished
-        if (sharedMemory->readIdx == sharedMemory->writeIdx && !sharedMemory->finished) {
+        while (sharedMemory->readIdx == sharedMemory->writeIdx && !sharedMemory->finished) {
             pthread_cond_wait(&sharedMemory->dataAvailable, &sharedMemory->mutex);
         }
 

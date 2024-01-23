@@ -58,15 +58,17 @@ int main(int argc, char *argv[]) {
 
             // Receive and print updates from the server
             char buffer[256];
-            bzero(buffer, 256 * sizeof(char));
             ssize_t bytesRead;
 
             while (!exit_flag) {
+                bzero(buffer, 256 * sizeof(char));
                 bytesRead = recv(clientSocket, buffer, sizeof(buffer) - 1, 0);
 
                 if (bytesRead > 0) {
                     buffer[bytesRead] = '\0';
-                    printf("Client %d got message\n%s", getpid(), buffer);
+                    if (bytesRead > 1) {
+                        printf("Client %d got message\n%s", getpid(), buffer);
+                    }
                 } else if (bytesRead == 0) {
                     // Connection closed by the server
                     break;

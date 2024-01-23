@@ -14,7 +14,7 @@ void *producer(void *data) {
         // Lock mutex 1->0
         pthread_mutex_lock(&sharedMemory->mutex);
 
-        if ((sharedMemory->writeIdx + 1) % BUFFER_SIZE == sharedMemory->readIdx) {
+        while ((sharedMemory->writeIdx + 1) % BUFFER_SIZE == sharedMemory->readIdx) {
             pthread_cond_wait(&sharedMemory->roomAvailable, &sharedMemory->mutex);
         }
 

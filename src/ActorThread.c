@@ -19,7 +19,6 @@ void *clientThreadFunc(void *data) {
     struct SharedMemory *sharedMemory = actorData->sharedMemory;
     struct ConsumerInfo *consumerInfo = actorData->consumerInfo;
 
-
     int clientSocket = clientData->clientSocket;
 
     for (;;) {
