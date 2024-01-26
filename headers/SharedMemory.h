@@ -4,7 +4,7 @@
 #include <sys/shm.h>
 #include <pthread.h>
 
-#define BUFFER_SIZE 1000
+#define BUFFER_SIZE 100
 
 struct SharedMemory {
     pthread_mutex_t mutex;

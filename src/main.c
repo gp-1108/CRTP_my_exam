@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Create threads
-    pthread_t threads[MAX_CONSUMERS + 3]; // +3 for ProducerThread, ActorThread and ActorThread
+    pthread_t threads[MAX_CONSUMERS + 2]; // +2 for ProducerThread, ActorThread 
 
     // Initialize shared memory
     sharedMemory->readIdx = 0;

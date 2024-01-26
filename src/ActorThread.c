@@ -38,7 +38,7 @@ void *clientThreadFunc(void *data) {
             exit(1);
         }
 
-        sleep(1); // [TODO] move to conditional variable
+        sleep(1); 
     }
 
     close(clientSocket);
